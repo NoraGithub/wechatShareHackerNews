@@ -16,6 +16,8 @@ const serverInfo =
 
 const app = express()
 
+const {wechatConfig} = require('./const')
+
 function createRenderer (bundle, options) {
   // https://github.com/vuejs/vue/blob/dev/packages/vue-server-renderer/README.md#why-use-bundlerenderer
   return createBundleRenderer(bundle, Object.assign(options, {
@@ -99,7 +101,8 @@ function render (req, res) {
 
   const context = {
     title: 'Vue HN 2.0', // default title
-    url: req.url
+    url: req.url,
+    wechatConfig,
   }
   renderer.renderToString(context, (err, html) => {
     if (err) {

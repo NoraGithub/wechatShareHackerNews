@@ -7,6 +7,9 @@ Vue.use(Router)
 const createListView = id => () => import('../views/CreateListView').then(m => m.default(id))
 const ItemView = () => import('../views/ItemView.vue')
 const UserView = () => import('../views/UserView.vue')
+const wechatRedirect = () => import('../views/view-wechat-redirect.vue')
+const wechatTest = () => import('../views/view-wechat-test.vue')
+
 
 export function createRouter () {
   return new Router({
@@ -21,7 +24,11 @@ export function createRouter () {
       { path: '/job/:page(\\d+)?', component: createListView('job') },
       { path: '/item/:id(\\d+)', component: ItemView },
       { path: '/user/:id', component: UserView },
-      { path: '/', redirect: '/top' }
+      { path: '/', redirect: '/top' },
+      // 跳转路由，用来获取openid
+      { path: '/wechat-redirect', name:'view-wechat-redirect', component:wechatRedirect  },
+      // test 路由
+      { path: '/wechat-test', name:'view-wechat-test', component:wechatTest  }
     ]
   })
 }

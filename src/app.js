@@ -5,6 +5,7 @@ import { createRouter } from './router'
 import { sync } from 'vuex-router-sync'
 import titleMixin from './util/title'
 import * as filters from './util/filters'
+import wechatGetOpenIdMixin from './util/wechatGetOpenIdMixin'
 
 // mixin for handling title
 Vue.mixin(titleMixin)
@@ -14,12 +15,16 @@ Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
 
+
+
+
 // Expose a factory function that creates a fresh set of store, router,
 // app instances on each call (which is called for each SSR request)
 export function createApp () {
   // create store and router instances
   const store = createStore()
   const router = createRouter()
+  router.beforeResolve(wechatGetOpenIdMixin(store, router))
 
   // sync the router with the vuex store.
   // this registers `store.state.route`

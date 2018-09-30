@@ -19,7 +19,9 @@ export function createStore () {
         show: [],
         ask: [],
         job: []
-      }
+      },
+      openid: '',
+      redirectURL: '',
     },
     actions,
     mutations,

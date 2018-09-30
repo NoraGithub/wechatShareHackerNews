@@ -12,13 +12,17 @@ export default context => {
     const s = isDev && Date.now()
     const { app, router, store } = createApp()
 
-    const { url } = context
+    const { url, wechatConfig } = context
     const { fullPath } = router.resolve(url).route
 
     if (fullPath !== url) {
       return reject({ url: fullPath })
     }
 
+
+    router.onError((err) => {
+      return reject({ url: err.redirect.url,code: err.redirect.statusCode })
+    })
     // set router's location
     router.push(url)
 
@@ -35,7 +39,9 @@ export default context => {
       // updated.
       Promise.all(matchedComponents.map(({ asyncData }) => asyncData && asyncData({
         store,
-        route: router.currentRoute
+        route: router.currentRoute,
+        router,
+        context
       }))).then(() => {
         isDev && console.log(`data pre-fetch: ${Date.now() - s}ms`)
         // After all preFetch hooks are resolved, our store is now

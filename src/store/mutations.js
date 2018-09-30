@@ -19,5 +19,11 @@ export default {
 
   SET_USER: (state, { id, user }) => {
     Vue.set(state.users, id, user || false) /* false means user not found */
+  },
+  SET_OPENID: (state, val) => {
+    state.openid = val
+  },
+  SET_REDIRECT_URL: (state, val) => {
+    state.redirectURL = val
   }
 }

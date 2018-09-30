@@ -29,6 +29,8 @@ function fetch (child) {
     return Promise.resolve(cache.get(child))
   } else {
     return new Promise((resolve, reject) => {
+      // GFW 不允许访问，不请求，直接resolve
+      resolve()
       api.child(child).once('value', snapshot => {
         const val = snapshot.val()
         // mark the timestamp when this item is cached
